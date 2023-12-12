@@ -8,8 +8,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class BookRepositoryImpl implements BookRepository {
-    @Autowired
     private RepositoryOperations<Book> repositoryOperations;
+
+    @Autowired
+    public void setRepositoryOperations(RepositoryOperations<Book> repositoryOperations) {
+        this.repositoryOperations = repositoryOperations;
+    }
 
     @Override
     public Book save(Book book) {
