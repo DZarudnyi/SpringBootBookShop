@@ -3,17 +3,14 @@ package com.example.books.repository;
 import com.example.books.model.Book;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+@RequiredArgsConstructor
 @Repository
 public class BookRepositoryImpl implements BookRepository {
-    private RepositoryOperations<Book> repositoryOperations;
-
-    @Autowired
-    public void setRepositoryOperations(RepositoryOperations<Book> repositoryOperations) {
-        this.repositoryOperations = repositoryOperations;
-    }
+    private final RepositoryOperations<Book> repositoryOperations;
 
     @Override
     public Book save(Book book) {
