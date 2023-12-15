@@ -1,13 +1,8 @@
 package com.example.books.repository;
 
 import com.example.books.model.Book;
-import java.util.List;
-import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BookRepository {
-    Book save(Book book);
-
-    List<Book> findAll();
-
-    Optional<Book> findById(Long id);
+public interface BookRepository extends JpaRepository<Book, Long> {
+    void updateById(Long id, Book book);
 }
