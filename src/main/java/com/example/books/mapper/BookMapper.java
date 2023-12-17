@@ -6,9 +6,11 @@ import com.example.books.dto.CreateBookRequestDto;
 import com.example.books.model.Book;
 import org.mapstruct.Mapper;
 
-@Mapper(config = MapperConfig.class)
+@Mapper(config = MapperConfig.class, componentModel = "spring")
 public interface BookMapper {
     BookDto toDto(Book book);
 
     Book toModel(CreateBookRequestDto requestDto);
+
+    Book toModel(BookDto bookDto);
 }
