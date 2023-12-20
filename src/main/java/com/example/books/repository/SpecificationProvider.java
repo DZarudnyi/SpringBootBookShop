@@ -10,4 +10,9 @@ public interface SpecificationProvider<T> {
         return (root, query, criteriaBuilder) ->
                 root.get(this.getKey()).in(Arrays.stream(params).toArray());
     }
+
+    default Specification<T> getSpecification(String param) {
+        return (root, query, criteriaBuilder) ->
+                criteriaBuilder.like(root.get(this.getKey()), "%" + param + "%");
+    }
 }

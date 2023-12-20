@@ -4,6 +4,7 @@ import com.example.books.model.Book;
 import com.example.books.repository.SpecificationProvider;
 import com.example.books.repository.SpecificationProviderManager;
 import java.util.List;
+import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,9 +16,9 @@ public class BookSpecificationProviderManager implements SpecificationProviderMa
     @Override
     public SpecificationProvider<Book> getSpecificationProvider(String key) {
         return bookSpecificationProviders.stream()
-                .filter(p -> p.getKey().equals(key))
+                .filter(provider -> provider.getKey().equals(key))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new NoSuchElementException(
                         "Can't find correct specification provider for key " + key));
     }
 }
