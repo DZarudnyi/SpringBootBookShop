@@ -31,7 +31,7 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: price
-                  type: decimal(10, 2)
+                  type: bigint
                   constraints:
                     nullable: false
               - column:
