@@ -3,6 +3,7 @@ package com.example.books.service;
 import com.example.books.dto.BookDto;
 import com.example.books.dto.BookSearchParametersDto;
 import com.example.books.dto.CreateBookRequestDto;
+import com.example.books.dto.UpdateBookRequestDto;
 import com.example.books.mapper.BookMapper;
 import com.example.books.model.Book;
 import com.example.books.repository.book.BookRepository;
@@ -39,7 +40,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void updateById(Long id, CreateBookRequestDto bookWithoutId) {
+    public void updateById(Long id, UpdateBookRequestDto bookWithoutId) {
         Book book = bookMapper.toModel(bookWithoutId);
         book.setId(id);
         bookRepository.save(book);
