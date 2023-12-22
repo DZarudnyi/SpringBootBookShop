@@ -3,7 +3,6 @@ package com.example.books.mapper;
 import com.example.books.config.MapperConfig;
 import com.example.books.dto.BookDto;
 import com.example.books.dto.CreateBookRequestDto;
-import com.example.books.dto.UpdateBookRequestDto;
 import com.example.books.model.Book;
 import org.mapstruct.Mapper;
 
@@ -13,5 +12,5 @@ public interface BookMapper {
 
     Book toModel(CreateBookRequestDto requestDto);
 
-    Book toModel(UpdateBookRequestDto updateDto);
+    Book toModel(BookDto bookDto);
 }
