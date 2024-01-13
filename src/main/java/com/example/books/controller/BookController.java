@@ -1,10 +1,10 @@
 package com.example.books.controller;
 
-import com.example.books.dto.BookDto;
-import com.example.books.dto.BookSearchParametersDto;
-import com.example.books.dto.CreateBookRequestDto;
-import com.example.books.dto.UpdateBookRequestDto;
-import com.example.books.service.BookService;
+import com.example.books.dto.book.BookDto;
+import com.example.books.dto.book.BookSearchParametersDto;
+import com.example.books.dto.book.CreateBookRequestDto;
+import com.example.books.dto.book.UpdateBookRequestDto;
+import com.example.books.service.book.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

@@ -1,9 +1,9 @@
-package com.example.books.service;
+package com.example.books.service.book;
 
-import com.example.books.dto.BookDto;
-import com.example.books.dto.BookSearchParametersDto;
-import com.example.books.dto.CreateBookRequestDto;
-import com.example.books.dto.UpdateBookRequestDto;
+import com.example.books.dto.book.BookDto;
+import com.example.books.dto.book.BookSearchParametersDto;
+import com.example.books.dto.book.CreateBookRequestDto;
+import com.example.books.dto.book.UpdateBookRequestDto;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 

@@ -1,4 +1,4 @@
-package com.example.books.dto;
+package com.example.books.dto.book;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -8,7 +8,8 @@ import lombok.Data;
 import org.hibernate.validator.constraints.ISBN;
 
 @Data
-public class CreateBookRequestDto {
+public class BookDto {
+    private Long id;
     @NotBlank
     private String title;
     @NotBlank
