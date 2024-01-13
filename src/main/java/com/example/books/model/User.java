@@ -15,18 +15,18 @@ import lombok.Data;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @Column(unique = true)
     @NotBlank
-    String email;
+    private String email;
     @NotBlank
-    String password;
+    private String password;
     @Column(name = "first_name")
     @NotBlank
-    String firstName;
+    private String firstName;
     @Column(name = "last_name")
     @NotBlank
-    String lastName;
+    private String lastName;
     @Column(name = "shipping_address")
-    String shippingAddress;
+    private String shippingAddress;
 }

@@ -7,13 +7,13 @@ import lombok.Data;
 @Data
 public class UserResponseDto {
     @NotBlank
-    Long id;
+    private Long id;
     @Email
     @NotBlank
-    String email;
+    private String email;
     @NotBlank
-    String firstName;
+    private String firstName;
     @NotBlank
-    String lastName;
-    String shippingAddress;
+    private String lastName;
+    private String shippingAddress;
 }
