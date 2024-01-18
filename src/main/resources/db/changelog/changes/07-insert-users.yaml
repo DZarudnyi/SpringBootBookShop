@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-users
+      author: dzarudnyi
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: email, value: "john.doe@example.com" }
+              - column: { name: password, value: "$2a$10$/mRwUcuZe1K0/OpmHfDOx.sHimAwS1J2vpRgNydAsz/gfL3.PUl/S" }
+              - column: { name: first_name, value: "John" }
+              - column: { name: last_name, value: "Doe" }
+              - column: { name: shipping_address, value: "123 Main St, City, Country" }
+        - insert:
+            tableName: users
+            columns:
+              - column: {name: email, value: "alice@example.com"}
+              - column: {name: password, value: "$2a$10$UWDzRXIj71KBT/dDlQgUROj4kquots6m3v3jDLvCXXexpez3d.jdu"}
+              - column: {name: first_name, value: "Alice"}
+              - column: {name: last_name, value: "Alison"}
+              - column: {name: shipping_address, value: "Some street, 13"}
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: email, value: "bob@example.com" }
+              - column: { name: password, value: "$2a$10$UWDzRXIj71KBT/dDlQgUROj4kquots6m3v3jDLvCXXexpez3d.jdu" }
+              - column: { name: first_name, value: "Bob" }
+              - column: { name: last_name, value: "Alison" }
+              - column: { name: shipping_address, value: "Some street, 14" }
