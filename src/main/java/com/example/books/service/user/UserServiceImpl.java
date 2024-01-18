@@ -5,6 +5,7 @@ import com.example.books.dto.user.UserResponseDto;
 import com.example.books.exception.RegistrationException;
 import com.example.books.mapper.UserMapper;
 import com.example.books.model.Role;
+import com.example.books.model.RoleName;
 import com.example.books.model.User;
 import com.example.books.repository.role.RoleRepository;
 import com.example.books.repository.user.UserRepository;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(requestDto.getFirstName());
         user.setLastName(requestDto.getLastName());
         user.setShippingAddress(requestDto.getShippingAddress());
-        Role role = roleRepository.findByName("ROLE_USER").get();
+        Role role = roleRepository.findByName(RoleName.ROLE_USER).get();
         user.setRoles(Set.of(role));
         User savedUser = userRepository.save(user);
         return userMapper.toUserResponse(savedUser);
