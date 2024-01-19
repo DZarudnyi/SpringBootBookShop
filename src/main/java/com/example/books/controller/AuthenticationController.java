@@ -1,5 +1,7 @@
 package com.example.books.controller;
 
+import com.example.books.dto.user.UserLoginRequestDto;
+import com.example.books.dto.user.UserLoginResponseDto;
 import com.example.books.dto.user.UserRegistrationRequestDto;
 import com.example.books.dto.user.UserResponseDto;
 import com.example.books.exception.RegistrationException;
@@ -25,5 +27,11 @@ public class AuthenticationController {
     public UserResponseDto register(@RequestBody @Valid UserRegistrationRequestDto requestDto)
             throws RegistrationException {
         return userService.register(requestDto);
+    }
+
+    @PostMapping("/login")
+    @Operation(summary = "Login", description = "Identifying user")
+    public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto request) {
+        return null;
     }
 }
