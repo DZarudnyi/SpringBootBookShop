@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-users-roles
+      author: dzarudnyi
+      changes:
+        - insert:
+            tableName: users_roles
+            columns:
+              - column: { name: user_id, value: 1 }
+              - column: { name: role_id, value: 1 }
+        - insert:
+            tableName: users_roles
+            columns:
+              - column: {name: user_id, value: 2}
+              - column: {name: role_id, value: 1}
+        - insert:
+            tableName: users_roles
+            columns:
+              - column: { name: user_id, value: 3 }
+              - column: { name: role_id, value: 1 }
+        - insert:
+            tableName: users_roles
+            columns:
+              - column: { name: user_id, value: 3 }
+              - column: { name: role_id, value: 2 }
