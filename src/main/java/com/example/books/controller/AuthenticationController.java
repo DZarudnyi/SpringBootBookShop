@@ -5,6 +5,7 @@ import com.example.books.dto.user.UserLoginResponseDto;
 import com.example.books.dto.user.UserRegistrationRequestDto;
 import com.example.books.dto.user.UserResponseDto;
 import com.example.books.exception.RegistrationException;
+import com.example.books.security.AuthenticationService;
 import com.example.books.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth")
 public class AuthenticationController {
     private final UserService userService;
+    private final AuthenticationService authenticationService;
 
     @PostMapping("/registration")
     @Operation(summary = "Registration", description = "Register new user")
@@ -32,6 +34,6 @@ public class AuthenticationController {
     @PostMapping("/login")
     @Operation(summary = "Login", description = "Identifying user")
     public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto request) {
-        return null;
+        return authenticationService.authenticate(request);
     }
 }
