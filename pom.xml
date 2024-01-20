@@ -17,6 +17,7 @@
 		<java.version>17</java.version>
         <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+		<jjwt.version>0.11.5</jjwt.version>
 
 		<maven.checkstyle.plugin.configLocation>
 			checkstyle.xml
@@ -106,7 +107,27 @@
             <artifactId>spring-boot-starter-security</artifactId>
             <version>3.2.1</version>
         </dependency>
-    </dependencies>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>${jjwt.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>${jjwt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>${jjwt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+
+	</dependencies>
 
 	<build>
 		<plugins>
