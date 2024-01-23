@@ -8,7 +8,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
+    @EntityGraph(attributePaths = "categories")
+    List<Book> findAll();
+
     @Query("SELECT b FROM Book b JOIN FETCH b.categories c WHERE c.id IN (:categoryId)")
-    //@EntityGraph(attributePaths = "categories")
     List<Book> findAllByCategoryId(Long categoryId);
 }

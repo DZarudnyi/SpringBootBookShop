@@ -7,15 +7,18 @@ import com.example.books.dto.book.CreateBookRequestDto;
 import com.example.books.dto.book.UpdateBookRequestDto;
 import com.example.books.model.Book;
 import com.example.books.model.Category;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper(config = MapperConfig.class, componentModel = "spring")
 public interface BookMapper {
     BookDto toDto(Book book);
 
+    @Mapping(target = "categories", source = "categoryIds")
     Book toModel(CreateBookRequestDto requestDto);
 
     Book toModel(UpdateBookRequestDto updateDto);
@@ -27,5 +30,15 @@ public interface BookMapper {
         bookDto.setCategoryIds(book.getCategories().stream()
                 .map(Category::getId)
                 .collect(Collectors.toSet()));
+    }
+
+    default Set<Category> mapSetOfIdsToCategoriesSet(Set<Long> ids) {
+        return ids.stream()
+                .map(id -> {
+                    Category category = new Category();
+                    category.setId(id);
+                    return category;
+                })
+                .collect(Collectors.toSet());
     }
 }
