@@ -2,15 +2,16 @@ package com.example.books.dto.book;
 
 import jakarta.validation.constraints.Min;
 import java.math.BigDecimal;
-import lombok.Data;
+import java.util.Set;
 
-@Data
-public class UpdateBookRequestDto {
-    private String title;
-    private String author;
-    private String isbn;
-    @Min(0)
-    private BigDecimal price;
-    private String description;
-    private String coverImage;
+public record UpdateBookRequestDto(
+        String title,
+        String author,
+        String isbn,
+        @Min(0)
+        BigDecimal price,
+        String description,
+        String coverImage,
+        Set<Long> categoryIds
+) {
 }
