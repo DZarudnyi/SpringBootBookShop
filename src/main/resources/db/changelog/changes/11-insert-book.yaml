@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-users
+      author: dzarudnyi
+      changes:
+        - insert:
+            tableName: books
+            columns:
+              - column: { name: title, value: "Colony"}
+              - column: {name: author, value: "Max Kidruk"}
+              - column: {name: isbn, value: "978-0-545-01022-1"}
+              - column: {name: price, value: 15.50}
+              - column: {name: description, value: "First book in 'Dark ages' trilogy"}
+              - column: {name: cover_image, value: "http://example.com/colony.jpg"}
