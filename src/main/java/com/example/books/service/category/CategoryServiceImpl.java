@@ -1,6 +1,7 @@
 package com.example.books.service.category;
 
 import com.example.books.dto.category.CategoryDto;
+import com.example.books.exception.EntityNotFoundException;
 import com.example.books.mapper.CategoryMapper;
 import com.example.books.model.Category;
 import com.example.books.repository.category.CategoryRepository;
@@ -24,7 +25,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto getById(Long id) {
-        return categoryMapper.toDto(categoryRepository.getReferenceById(id));
+        return categoryMapper.toDto(categoryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "There is no category with id " + id)));
     }
 
     @Override
