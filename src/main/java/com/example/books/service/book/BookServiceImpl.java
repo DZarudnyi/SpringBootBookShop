@@ -34,7 +34,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public List<BookDto> findAll(Pageable pageable) {
-        return bookRepository.findAll(pageable).stream()
+        return bookRepository.findAllBooksWithCategories(pageable).stream()
                 .map(bookMapper::toDto)
                 .toList();
     }
