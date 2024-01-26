@@ -2,6 +2,7 @@ package com.example.books.controller;
 
 import com.example.books.dto.book.BookDtoWithoutCategoryIds;
 import com.example.books.dto.category.CategoryDto;
+import com.example.books.dto.category.CreateCategoryRequestDto;
 import com.example.books.service.book.BookService;
 import com.example.books.service.category.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,8 +32,10 @@ public class CategoryController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     @Operation(summary = "Create new category")
-    public CategoryDto createCategory(@Valid CategoryDto categoryDto) {
-        return categoryService.save(categoryDto);
+    public CategoryDto createCategory(
+            @RequestBody @Valid CreateCategoryRequestDto createCategoryRequestDto
+    ) {
+        return categoryService.save(createCategoryRequestDto);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -51,8 +55,11 @@ public class CategoryController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Update category with given id value")
-    public CategoryDto updateCategory(@PathVariable Long id, @Valid CategoryDto categoryDto) {
-        return categoryService.update(id, categoryDto);
+    public CategoryDto updateCategory(
+            @PathVariable Long id,
+            @RequestBody @Valid CreateCategoryRequestDto createCategoryRequestDto
+    ) {
+        return categoryService.update(id, createCategoryRequestDto);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

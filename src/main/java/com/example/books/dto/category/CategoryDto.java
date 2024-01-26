@@ -1,9 +1,7 @@
 package com.example.books.dto.category;
 
-import jakarta.validation.constraints.NotBlank;
-
 public record CategoryDto(
-        @NotBlank
+        Long id,
         String name,
         String description
 ) {
