@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-categories
+      author: dzarudnyi
+      changes:
+        - insert:
+            tableName: categories
+            columns:
+              - column: {name: name, value: "sci-fi"}
+              - column: {name: description, value: "Science fiction"}
+        - insert:
+            tableName: categories
+            columns:
+              - column: {name: name, value: "fantasy"}
+              - column: {name: description, value: "Classic Tolkien fantasy genre"}
+        - insert:
+            tableName: categories
+            columns:
+              - column: {name: name, value: "detective"}
+              - column: {name: description, value: "Stories about criminals and police"}
+        - insert:
+            tableName: categories
+            columns:
+              - column: {name: name, value: "novel"}
+              - column: {name: description, value: "Long story with a lot of characters"}
