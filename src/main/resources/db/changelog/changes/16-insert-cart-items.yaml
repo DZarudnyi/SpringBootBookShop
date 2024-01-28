@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-cart-items
+      author: dzarudnyi
+      changes:
+        - insert:
+            tableName: cart_items
+            columns:
+              - column: { name: cart_id, value: }
+              - column: { name: book_id, value: }
+        - insert:
+            tableName: cart_items
+            columns:
+              - column: { name: cart_id, value: }
+              - column: { name: book_id, value: }
+        - insert:
+            tableName: cart_items
+            columns:
+              - column: { name: cart_id, value: }
+              - column: { name: book_id, value: }
+        - insert:
+            tableName: cart_items
+            columns:
+              - column: { name: cart_id, value: }
+              - column: { name: book_id, value: }
+        - insert:
+            tableName: cart_items
+            columns:
+              - column: { name: cart_id, value: }
+              - column: { name: book_id, value: }
+        - insert:
+            tableName: cart_items
+            columns:
+              - column: { name: cart_id, value: }
+              - column: { name: book_id, value: }
