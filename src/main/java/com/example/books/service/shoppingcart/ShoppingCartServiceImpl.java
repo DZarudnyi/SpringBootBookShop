@@ -1,16 +1,16 @@
-package com.example.books.service.shopping_cart;
+package com.example.books.service.shoppingcart;
 
-import com.example.books.dto.cart_item.CartItemDto;
-import com.example.books.dto.cart_item.UpdateCartItemRequestDto;
-import com.example.books.dto.shopping_cart.ShoppingCartDto;
+import com.example.books.dto.cartitem.CartItemDto;
+import com.example.books.dto.cartitem.UpdateCartItemRequestDto;
+import com.example.books.dto.shoppingcart.ShoppingCartDto;
 import com.example.books.exception.EntityNotFoundException;
 import com.example.books.mapper.CartItemMapper;
 import com.example.books.mapper.ShoppingCartMapper;
 import com.example.books.model.CartItem;
 import com.example.books.model.ShoppingCart;
 import com.example.books.model.User;
-import com.example.books.repository.cart_item.CartItemRepository;
-import com.example.books.repository.shopping_cart.ShoppingCartRepository;
+import com.example.books.repository.cartitem.CartItemRepository;
+import com.example.books.repository.shoppingcart.ShoppingCartRepository;
 import com.example.books.repository.user.UserRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +49,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartDto updateCartItemQuantity(Long itemId, UpdateCartItemRequestDto requestDto) {
+    public ShoppingCartDto updateCartItemQuantity(
+            Long itemId,
+            UpdateCartItemRequestDto requestDto
+    ) {
         CartItem cartItem = cartItemRepository.getReferenceById(itemId);
         cartItem.setQuantity(requestDto.quantity());
         return getShoppingCart();

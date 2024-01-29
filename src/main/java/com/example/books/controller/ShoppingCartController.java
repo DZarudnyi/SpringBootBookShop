@@ -1,9 +1,9 @@
 package com.example.books.controller;
 
-import com.example.books.dto.cart_item.CartItemDto;
-import com.example.books.dto.cart_item.UpdateCartItemRequestDto;
-import com.example.books.dto.shopping_cart.ShoppingCartDto;
-import com.example.books.service.shopping_cart.ShoppingCartService;
+import com.example.books.dto.cartitem.CartItemDto;
+import com.example.books.dto.cartitem.UpdateCartItemRequestDto;
+import com.example.books.dto.shoppingcart.ShoppingCartDto;
+import com.example.books.service.shoppingcart.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;

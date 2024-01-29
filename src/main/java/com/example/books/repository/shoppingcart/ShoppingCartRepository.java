@@ -1,6 +1,6 @@
-package com.example.books.repository.shopping_cart;
+package com.example.books.repository.shoppingcart;
 
-import com.example.books.dto.shopping_cart.ShoppingCartDto;
+import com.example.books.dto.shoppingcart.ShoppingCartDto;
 import com.example.books.model.ShoppingCart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,4 +1,4 @@
-package com.example.books.dto.cart_item;
+package com.example.books.dto.cartitem;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

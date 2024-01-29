@@ -29,5 +29,5 @@ public class CartItem {
     private Book book;
     private int quantity;
     @Column(name = "is_deleted", nullable = false)
-    boolean isDeleted = false;
+    private boolean isDeleted = false;
 }
