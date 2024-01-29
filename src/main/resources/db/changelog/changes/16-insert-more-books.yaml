@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-book
+      author: dzarudnyi
+      changes:
+        - insert:
+            tableName: books
+            columns:
+              - column: { name: title, value: "Sample Book 1"}
+              - column: {name: author, value: "Author C"}
+              - column: {name: isbn, value: "978-3-16-148410-0"}
+              - column: {name: price, value: 29.99}
+              - column: {name: description, value: "Yet another sample book description."}
+              - column: {name: cover_image, value: "http://example.com/cover3.jpg"}
+        - insert:
+            tableName: books
+            columns:
+              - column: { name: title, value: "Godfather" }
+              - column: { name: author, value: "Mario Puso" }
+              - column: { name: isbn, value: "978-1-56619-909-4" }
+              - column: { name: price, value: 15.99 }
+              - column: { name: description, value: "Mafia" }
+              - column: { name: cover_image, value: "https://example.com/godfather-cover-image.jpg" }
+        - insert:
+            tableName: books
+            columns:
+              - column: { name: title, value: "Another book" }
+              - column: { name: author, value: "Me" }
+              - column: { name: isbn, value: "978-92-95055-02-5" }
+              - column: { name: price, value: 20.00 }
+              - column: { name: description, value: "Description" }
+              - column: { name: cover_image, value: "https://example.com/updated-cover-image.jpg" }
+        - insert:
+            tableName: books
+            columns:
+              - column: { name: title, value: "Hyperion" }
+              - column: { name: author, value: "Dan Simmons" }
+              - column: { name: isbn, value: "978-1-4028-9462-6" }
+              - column: { name: price, value: 24.99 }
+              - column: { name: description, value: "First book in series of science fiction novels" }
+              - column: { name: cover_image, value: "http://example.com/hyperion.jpg" }
