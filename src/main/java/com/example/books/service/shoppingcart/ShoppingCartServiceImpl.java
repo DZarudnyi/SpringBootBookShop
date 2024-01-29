@@ -3,7 +3,6 @@ package com.example.books.service.shoppingcart;
 import com.example.books.dto.cartitem.CartItemDto;
 import com.example.books.dto.cartitem.UpdateCartItemRequestDto;
 import com.example.books.dto.shoppingcart.ShoppingCartDto;
-import com.example.books.exception.EntityNotFoundException;
 import com.example.books.mapper.CartItemMapper;
 import com.example.books.mapper.ShoppingCartMapper;
 import com.example.books.model.CartItem;
@@ -11,18 +10,16 @@ import com.example.books.model.ShoppingCart;
 import com.example.books.model.User;
 import com.example.books.repository.cartitem.CartItemRepository;
 import com.example.books.repository.shoppingcart.ShoppingCartRepository;
-import com.example.books.repository.user.UserRepository;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final ShoppingCartMapper shoppingCartMapper;
-    private final UserRepository userRepository;
     private final CartItemMapper cartItemMapper;
     private final CartItemRepository cartItemRepository;
 
@@ -31,15 +28,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCartDto getShoppingCart() {
-        String credentials = (String) SecurityContextHolder
-                .getContext().getAuthentication().getCredentials();
-        //TODO: create a method in user service(?) to get user by creds, to get their id
-        Optional<User> user = userRepository.findByEmail(credentials);
-        return shoppingCartRepository.getShoppingCartByUserId(user.orElseThrow(
-                () -> new EntityNotFoundException("User doesn't have a shopping cart!")).getId());
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return shoppingCartMapper.toDto(shoppingCartRepository
+                .getShoppingCartByUserId(user.getId()));
     }
 
     @Override
+    @Transactional
     public ShoppingCartDto addBookToShoppingCart(CartItemDto cartItemDto) {
         CartItem cartItem = cartItemMapper.toEntity(cartItemDto);
         ShoppingCart shoppingCart = shoppingCartMapper.toEntity(getShoppingCart());
@@ -49,6 +44,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
+    @Transactional
     public ShoppingCartDto updateCartItemQuantity(
             Long itemId,
             UpdateCartItemRequestDto requestDto
