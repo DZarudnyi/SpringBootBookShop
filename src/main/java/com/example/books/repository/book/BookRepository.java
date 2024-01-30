@@ -15,9 +15,9 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
     @Query("SELECT b.id FROM Book b")
     List<Long> findIdsByPage(Pageable pageable);
 
-    @Query("SELECT b FROM Book b JOIN FETCH b.categories WHERE b.id IN (:ids)")
+    @Query("SELECT b FROM Book b LEFT JOIN FETCH b.categories WHERE b.id IN (:ids)")
     List<Book> findByIdsIn(List<Long> ids);
 
-    @Query("SELECT b FROM Book b JOIN FETCH b.categories c WHERE c.id IN (:categoryId)")
+    @Query("SELECT b FROM Book b LEFT JOIN FETCH b.categories c WHERE c.id IN (:categoryId)")
     List<Book> findAllByCategoryId(Long categoryId);
 }
