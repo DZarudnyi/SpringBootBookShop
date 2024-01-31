@@ -43,25 +43,28 @@ public class OrderServiceImpl implements OrderService {
         order.setUser(user);
         order.setShippingAddress(requestDto.shippingAddress());
         order.setStatus(Status.PENDING);
-        orderRepository.save(order);
-
-        ShoppingCart shoppingCart = shoppingCartRepository.getShoppingCartByUserId(user.getId());
         Set<OrderItem> orderItemSet = new HashSet<>();
         BigDecimal orderItemsTotalSum = new BigDecimal(0);
+        ShoppingCart shoppingCart = shoppingCartRepository.getShoppingCartByUserId(user.getId());
+        for (CartItem cartItem : shoppingCart.getCartItems()) {
+            orderItemsTotalSum = orderItemsTotalSum.add(cartItem.getBook().getPrice());
+        }
+        order.setTotal(orderItemsTotalSum);
+        orderRepository.save(order);
+
         for (CartItem cartItem : shoppingCart.getCartItems()) {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
             orderItem.setQuantity(cartItem.getQuantity());
             orderItem.setBook(cartItem.getBook());
             orderItem.setPrice(cartItem.getBook().getPrice());
-            orderItemsTotalSum = orderItemsTotalSum.add(orderItem.getPrice());
+
             orderItemsRepository.save(orderItem);
             orderItemSet.add(orderItem);
         }
         order.setOrderItems(orderItemSet);
-        order.setTotal(orderItemsTotalSum);
 
-        return orderMapper.toDto(orderRepository.save(order));
+        return orderMapper.toDto(order);
     }
 
     public List<OrderDto> getOrderHistory() {

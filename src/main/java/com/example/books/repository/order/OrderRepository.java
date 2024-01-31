@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT o FROM Order o LEFT JOIN FETCH o.user "
-            + "LEFT JOIN FETCH o.orderItems WHERE o.user.id = (:id)")
+            + "LEFT JOIN FETCH o.orderItems ooi "
+            + "LEFT JOIN FETCH ooi.book "
+            + "WHERE o.user.id = (:id)")
     List<Order> getOrderHistoryByUserId(Long id);
 }
