@@ -20,7 +20,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: status
-                  type: varchar(255)
+                  type: tinyint
                   constraints:
                     nullable: false
               - column:

@@ -1,19 +1,19 @@
 package com.example.books.repository.orderitems;
 
-import com.example.books.model.OrderItems;
+import com.example.books.model.OrderItem;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface OrderItemsRepository extends JpaRepository<OrderItems, Long> {
-    @Query("SELECT oi FROM OrderItems oi "
+public interface OrderItemsRepository extends JpaRepository<OrderItem, Long> {
+    @Query("SELECT oi FROM OrderItem oi "
             + "LEFT JOIN FETCH oi.book "
             + "WHERE oi.order.id = (:orderId)")
-    List<OrderItems> getOrderItemsByOrderId(Long orderId);
+    List<OrderItem> getOrderItemsByOrderId(Long orderId);
 
-    @Query("SELECT oi FROM OrderItems oi "
+    @Query("SELECT oi FROM OrderItem oi "
             + "LEFT JOIN FETCH oi.book "
             + "WHERE oi.order.id = (:orderId) "
             + "AND oi.id = (:itemId)")
-    OrderItems getOrderItemsByOrderIdAndItemId(Long orderId, Long itemId);
+    OrderItem getOrderItemsByOrderIdAndItemId(Long orderId, Long itemId);
 }

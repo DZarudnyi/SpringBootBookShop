@@ -17,27 +17,27 @@ import org.hibernate.annotations.Where;
 @SQLDelete(sql = "UPDATE order_items SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted = false")
 @Table(name = "order_items")
-public class OrderItems {
+public class OrderItem {
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @Getter
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
-    Order order;
+    private Order order;
     @Getter
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
-    Book book;
+    private Book book;
     @Getter
     @Column(nullable = false)
-    int quantity;
+    private int quantity;
     @Getter
     @Column(nullable = false)
-    BigDecimal price;
+    private BigDecimal price;
     @Column(name = "is_deleted", nullable = false)
-    boolean isDeleted = false;
+    private boolean isDeleted = false;
 
     public void setId(Long id) {
         this.id = id;

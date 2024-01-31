@@ -13,7 +13,6 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
-
 import lombok.Getter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -21,33 +20,33 @@ import org.hibernate.annotations.Where;
 @Entity
 @SQLDelete(sql = "UPDATE order SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted = false")
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @Getter
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    User user;
+    private User user;
     @Getter
     @Column(nullable = false)
-    Status status;
+    private Status status;
     @Getter
     @Column(nullable = false)
-    BigDecimal total;
+    private BigDecimal total = BigDecimal.valueOf(0);
     @Getter
     @Column(nullable = false)
-    LocalDateTime orderDate;
+    private LocalDateTime orderDate;
     @Getter
     @Column(nullable = false)
-    String shippingAddress;
+    private String shippingAddress;
     @Getter
     @OneToMany(mappedBy = "order")
-    Set<OrderItems> orderItems;
+    private Set<OrderItem> orderItems;
     @Column(name = "is_deleted", nullable = false)
-    boolean isDeleted = false;
+    private boolean isDeleted = false;
 
     public void setId(Long id) {
         this.id = id;
@@ -73,7 +72,7 @@ public class Order {
         this.shippingAddress = shippingAddress;
     }
 
-    public void setOrderItems(Set<OrderItems> orderItems) {
+    public void setOrderItems(Set<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
 
