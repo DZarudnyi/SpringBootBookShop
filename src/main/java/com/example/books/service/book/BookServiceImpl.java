@@ -5,18 +5,19 @@ import com.example.books.dto.book.BookDtoWithoutCategoryIds;
 import com.example.books.dto.book.BookSearchParametersDto;
 import com.example.books.dto.book.CreateBookRequestDto;
 import com.example.books.dto.book.UpdateBookRequestDto;
+import com.example.books.exception.EntityNotFoundException;
 import com.example.books.mapper.BookMapper;
 import com.example.books.model.Book;
 import com.example.books.repository.book.BookRepository;
 import com.example.books.repository.book.BookSpecificationBuilder;
 import com.example.books.repository.category.CategoryRepository;
-import jakarta.persistence.EntityNotFoundException;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
