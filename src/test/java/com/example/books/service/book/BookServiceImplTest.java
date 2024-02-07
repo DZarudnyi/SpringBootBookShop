@@ -34,6 +34,7 @@ import static org.mockito.Mockito.mock;
 public class BookServiceImplTest {
     private static final Long DEFAULT_ID = 1L;
     private static final BigDecimal DEFAULT_PRICE = BigDecimal.valueOf(20.00);
+
     private Book book;
     @Mock
     private BookRepository bookRepository;
@@ -55,14 +56,9 @@ public class BookServiceImplTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("save, passing valid book, expecting to get BookDto")
     public void save_ValidRequestDto_ReturnsBookDto() {
-        BookDto bookDto = new BookDto();
-        bookDto.setId(DEFAULT_ID);
-        bookDto.setTitle("Title");
-        bookDto.setAuthor("Author");
-        bookDto.setIsbn("1234");
-        bookDto.setPrice(DEFAULT_PRICE);
+        BookDto bookDto = getBookDto();
 
         CreateBookRequestDto requestDto = new CreateBookRequestDto();
         requestDto.setTitle("Title");
@@ -80,14 +76,9 @@ public class BookServiceImplTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("findAll, expecting to get list of BookDto")
     public void findAll_ValidPageable_ReturnsBooksList(){
-        BookDto bookDto = new BookDto();
-        bookDto.setId(DEFAULT_ID);
-        bookDto.setTitle("Title");
-        bookDto.setAuthor("Author");
-        bookDto.setIsbn("1234");
-        bookDto.setPrice(DEFAULT_PRICE);
+        BookDto bookDto = getBookDto();
 
         List<BookDto> expected = List.of(bookDto);
 
@@ -99,16 +90,11 @@ public class BookServiceImplTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("findById, passing valid id and expecting to get BookDto")
     public void findById_ValidId_ReturnsBookDto() {
         Long bookId = DEFAULT_ID;
 
-        BookDto bookDto = new BookDto();
-        bookDto.setId(bookId);
-        bookDto.setTitle("Title");
-        bookDto.setAuthor("Author");
-        bookDto.setIsbn("1234");
-        bookDto.setPrice(DEFAULT_PRICE);
+        BookDto bookDto = getBookDto();
 
         Mockito.when(bookRepository.findById(bookId)).thenReturn(Optional.ofNullable(book));
         Mockito.when(bookMapper.toDto(book)).thenReturn(bookDto);
@@ -119,10 +105,8 @@ public class BookServiceImplTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("updateById, passing valid id and verifying number of method calls")
     public void updateById_ValidId_ReturnsValidBook() {
-        Long bookId = DEFAULT_ID;
-
         UpdateBookRequestDto requestDto = new UpdateBookRequestDto();
         requestDto.setTitle("Title");
         requestDto.setAuthor("Author");
@@ -131,12 +115,12 @@ public class BookServiceImplTest {
 
         Mockito.when(bookMapper.toModel(requestDto)).thenReturn(book);
 
-        bookService.updateById(bookId, requestDto);
+        bookService.updateById(DEFAULT_ID, requestDto);
         Mockito.verify(bookRepository, Mockito.times(1)).save(book);
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("deleteById, expecting method to be called once")
     public void deleteById_WithCorrectId_Successful() {
         Long bookId = DEFAULT_ID;
         bookService.deleteById(bookId);
@@ -144,7 +128,7 @@ public class BookServiceImplTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("findAllByCategoryId, check if exception is thrown if id is invalid")
     public void
     findAllByCategoryId_WithInvalidCategoryId_ThrowsEntityNotFoundExceptionException() {
         Long categoryId = 100L;
@@ -160,7 +144,7 @@ public class BookServiceImplTest {
     }
 
     @Test
-    @DisplayName("Verify the correct book returns when category id exists")
+    @DisplayName("findAllByCategoryId, verify that correct book returns when category id exists")
     public void findAllByCategoryId_WithValidCategoryId_ReturnsValidBook() {
         Long categoryId = DEFAULT_ID;
 
@@ -181,5 +165,15 @@ public class BookServiceImplTest {
 
         List<BookDtoWithoutCategoryIds> expected = List.of(expectedBook);
         Assertions.assertEquals(expected, actual);
+    }
+
+    private static BookDto getBookDto() {
+        BookDto bookDto = new BookDto();
+        bookDto.setId(DEFAULT_ID);
+        bookDto.setTitle("Title");
+        bookDto.setAuthor("Author");
+        bookDto.setIsbn("1234");
+        bookDto.setPrice(DEFAULT_PRICE);
+        return bookDto;
     }
 }
