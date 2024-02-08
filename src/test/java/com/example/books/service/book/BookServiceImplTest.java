@@ -8,12 +8,9 @@ import com.example.books.exception.EntityNotFoundException;
 import com.example.books.mapper.BookMapper;
 import com.example.books.model.Book;
 import com.example.books.repository.book.BookRepository;
-
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import com.example.books.repository.category.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +24,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)//potentially change to @RunWith(MockitoJUnitRunner.class)
