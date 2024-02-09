@@ -1,5 +1,9 @@
 package com.example.books.service.category;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+
 import com.example.books.dto.category.CategoryDto;
 import com.example.books.dto.category.CreateCategoryRequestDto;
 import com.example.books.mapper.CategoryMapper;
@@ -19,10 +23,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceImplTest {
@@ -85,7 +85,9 @@ class CategoryServiceImplTest {
     }
 
     @Test
-    @DisplayName("update, passing valid id and CreateCategoryRequestDto, expecting to get CategoryDto")
+    @DisplayName(
+            "update, passing valid id and CreateCategoryRequestDto, expecting to get CategoryDto"
+    )
     void update_WithValidId_ReturnsCategoryDto() {
         CreateCategoryRequestDto requestDto = getCreateCategoryRequestDto();
         CategoryDto expected = getCategoryDto();
@@ -99,7 +101,9 @@ class CategoryServiceImplTest {
     }
 
     @Test
-    @DisplayName("deleteById, passing valid id and expecting deleteById to trigger once")
+    @DisplayName(
+            "deleteById, passing valid id and expecting deleteById to trigger once"
+    )
     void deleteById_WithValidId_Successful() {
         categoryService.deleteById(DEFAULT_ID);
         Mockito.verify(categoryRepository, times(1)).deleteById(DEFAULT_ID);

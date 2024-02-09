@@ -3,7 +3,7 @@ package com.example.books.config;
 import org.testcontainers.containers.MySQLContainer;
 
 public class CustomMySqlContainer extends MySQLContainer<CustomMySqlContainer> {
-    private final static String DB_IMAGE = "mysql:8";
+    private static final String DB_IMAGE = "mysql:8";
 
     private static CustomMySqlContainer mySqlContainer;
 

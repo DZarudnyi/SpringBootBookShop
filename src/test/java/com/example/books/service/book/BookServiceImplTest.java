@@ -1,5 +1,8 @@
 package com.example.books.service.book;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+
 import com.example.books.dto.book.BookDto;
 import com.example.books.dto.book.BookDtoWithoutCategoryIds;
 import com.example.books.dto.book.CreateBookRequestDto;
@@ -8,10 +11,10 @@ import com.example.books.exception.EntityNotFoundException;
 import com.example.books.mapper.BookMapper;
 import com.example.books.model.Book;
 import com.example.books.repository.book.BookRepository;
+import com.example.books.repository.category.CategoryRepository;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-import com.example.books.repository.category.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,10 +26,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-
-@ExtendWith(MockitoExtension.class)//potentially change to @RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class BookServiceImplTest {
     private static final Long DEFAULT_ID = 1L;
     private static final BigDecimal DEFAULT_PRICE = BigDecimal.valueOf(20.00);
@@ -54,31 +54,31 @@ public class BookServiceImplTest {
     @Test
     @DisplayName("save, passing valid book, expecting to get BookDto")
     public void save_ValidRequestDto_ReturnsBookDto() {
-        BookDto bookDto = getBookDto();
-
         CreateBookRequestDto requestDto = new CreateBookRequestDto();
         requestDto.setTitle("Title");
         requestDto.setAuthor("Author");
         requestDto.setIsbn("1234");
         requestDto.setPrice(DEFAULT_PRICE);
 
+        BookDto expected = getBookDto();
+
         Mockito.when(bookRepository.save(book)).thenReturn(book);
-        Mockito.when(bookMapper.toDto(book)).thenReturn(bookDto);
+        Mockito.when(bookMapper.toDto(book)).thenReturn(expected);
         Mockito.when(bookMapper.toModel(requestDto)).thenReturn(book);
 
-        BookDto expected = bookDto;
         BookDto actual = bookService.save(requestDto);
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
     @DisplayName("findAll, expecting to get list of BookDto")
-    public void findAll_ValidPageable_ReturnsBooksList(){
+    public void findAll_ValidPageable_ReturnsBooksList() {
         BookDto bookDto = getBookDto();
 
         List<BookDto> expected = List.of(bookDto);
 
-        Mockito.when(bookRepository.findAllBooksWithCategoriesPaged(any(Pageable.class))).thenReturn(List.of(book));
+        Mockito.when(bookRepository.findAllBooksWithCategoriesPaged(
+                any(Pageable.class))).thenReturn(List.of(book));
         Mockito.when(bookMapper.toDto(book)).thenReturn(bookDto);
 
         List<BookDto> actual = bookService.findAll(mock(Pageable.class));
@@ -90,12 +90,11 @@ public class BookServiceImplTest {
     public void findById_ValidId_ReturnsBookDto() {
         Long bookId = DEFAULT_ID;
 
-        BookDto bookDto = getBookDto();
+        BookDto expected = getBookDto();
 
         Mockito.when(bookRepository.findById(bookId)).thenReturn(Optional.ofNullable(book));
-        Mockito.when(bookMapper.toDto(book)).thenReturn(bookDto);
+        Mockito.when(bookMapper.toDto(book)).thenReturn(expected);
 
-        BookDto expected = bookDto;
         BookDto actual = bookService.findById(bookId);
         Assertions.assertEquals(expected, actual);
     }
@@ -125,8 +124,7 @@ public class BookServiceImplTest {
 
     @Test
     @DisplayName("findAllByCategoryId, check if exception is thrown if id is invalid")
-    public void
-    findAllByCategoryId_WithInvalidCategoryId_ThrowsEntityNotFoundExceptionException() {
+    public void findAllByCategoryId_WithInvalidCategoryId_ThrowsEntityNotFoundExceptionException() {
         Long categoryId = 100L;
 
         Exception exception = Assertions.assertThrows(
@@ -140,7 +138,9 @@ public class BookServiceImplTest {
     }
 
     @Test
-    @DisplayName("findAllByCategoryId, verify that correct book returns when category id exists")
+    @DisplayName(
+            "findAllByCategoryId, verify that correct book returns when category id exists"
+    )
     public void findAllByCategoryId_WithValidCategoryId_ReturnsValidBook() {
         Long categoryId = DEFAULT_ID;
 
