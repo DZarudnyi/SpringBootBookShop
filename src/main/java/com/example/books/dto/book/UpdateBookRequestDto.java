@@ -4,8 +4,10 @@ import jakarta.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.util.Set;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 public class UpdateBookRequestDto {
     private String title;
     private String author;
