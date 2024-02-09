@@ -4,11 +4,8 @@ import com.example.books.dto.book.BookDto;
 import com.example.books.dto.book.CreateBookRequestDto;
 import com.example.books.dto.book.UpdateBookRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
