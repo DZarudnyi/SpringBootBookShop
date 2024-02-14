@@ -23,11 +23,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
 
 @ExtendWith(MockitoExtension.class)
 class ShoppingCartServiceImplTest {
@@ -43,10 +42,10 @@ class ShoppingCartServiceImplTest {
     private CartItemRepository cartItemRepository;
     @Mock
     private CartItemMapper cartItemMapper;
-//    @Mock
-//    private Authentication authentication;
-//    @Mock
-//    private SecurityContext securityContext;
+    @Mock
+    private Authentication authentication;
+    @Mock
+    private SecurityContext securityContext;
     @InjectMocks
     private ShoppingCartServiceImpl shoppingCartService;
 
@@ -54,8 +53,7 @@ class ShoppingCartServiceImplTest {
     public void setup() {
         shoppingCart = new ShoppingCart();
         shoppingCart.setId(DEFAULT_ID);
-        User user = new User();
-        user.setId(DEFAULT_ID);
+        User user = getUser();
         shoppingCart.setUser(user);
         shoppingCart.setCartItems(Set.of(getCartItem()));
 
@@ -65,17 +63,23 @@ class ShoppingCartServiceImplTest {
         shoppingCartDto.setCartItemsIds(Set.of(DEFAULT_ID));
     }
 
+    private void setupShoppingCartForUser() {
+        User user = getUser();
+        authentication = new UsernamePasswordAuthenticationToken(
+                user,
+                user.getPassword(),
+                user.getAuthorities()
+        );
+        Mockito.doReturn(shoppingCart).when(shoppingCartRepository)
+                .getShoppingCartByUserId(DEFAULT_ID);
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+    }
+
     @Test
-    @WithMockUser
-    @WithUserDetails()
-    void getShoppingCart() {
-        Mockito.when(shoppingCartRepository.getShoppingCartByUserId(DEFAULT_ID))
-                .thenReturn(shoppingCart);
+    void getShoppingCart_Ok() {
+        setupShoppingCartForUser();
         Mockito.when(shoppingCartMapper.toDto(shoppingCart)).thenReturn(shoppingCartDto);
-        Mockito.when(SecurityContextHolder.getContext().getAuthentication().getPrincipal())
-                .thenReturn(getUser());
-//        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
-//        SecurityContextHolder.setContext(securityContext);
 
         ShoppingCartDto actual = shoppingCartService.getShoppingCart();
         Assertions.assertNotNull(actual);
@@ -84,7 +88,8 @@ class ShoppingCartServiceImplTest {
     }
 
     @Test
-    void addBookToShoppingCart() {
+    void addBookToShoppingCart_WithValidBook_ShouldReturnShoppingCartDto() {
+        setupShoppingCartForUser();
         Mockito.when(cartItemMapper.toEntity(getCartItemDto())).thenReturn(getCartItem());
         Mockito.when(shoppingCartMapper.toEntity(shoppingCartDto)).thenReturn(shoppingCart);
         Mockito.when(shoppingCartMapper.toDto(shoppingCart)).thenReturn(shoppingCartDto);
@@ -96,20 +101,18 @@ class ShoppingCartServiceImplTest {
     }
 
     @Test
-    void updateCartItemQuantity() {
+    void updateCartItemQuantity_Ok() {
         Mockito.when(cartItemRepository.getReferenceById(DEFAULT_ID)).thenReturn(getCartItem());
 
-        ShoppingCartDto actual = shoppingCartService
-                .updateCartItemQuantity(DEFAULT_ID, new UpdateCartItemRequestDto(1));
-        Assertions.assertNotNull(actual);
-
-        Assertions.assertEquals(shoppingCartDto, actual);
+        shoppingCartService.updateCartItemQuantity(DEFAULT_ID, new UpdateCartItemRequestDto(1));
+        Mockito.verify(cartItemRepository, Mockito.times(1))
+                .getReferenceById(DEFAULT_ID);
     }
 
     @Test
-    void deleteCartItem() {
+    void deleteCartItem_Ok() {
         shoppingCartService.deleteCartItem(DEFAULT_ID);
-        Mockito.verify(shoppingCartRepository, Mockito.times(1))
+        Mockito.verify(cartItemRepository, Mockito.times(1))
                 .deleteById(DEFAULT_ID);
     }
 

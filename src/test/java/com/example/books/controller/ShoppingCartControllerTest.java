@@ -9,6 +9,7 @@ import com.example.books.dto.cartitem.CartItemDto;
 import com.example.books.dto.cartitem.UpdateCartItemRequestDto;
 import com.example.books.dto.shoppingcart.ShoppingCartDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Set;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,13 +24,10 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.List;
-import java.util.Set;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ShoppingCartControllerTest {
     private static final Long DEFAULT_ID = 1L;
-    protected static MockMvc mockMvc;
+    private static MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
 
