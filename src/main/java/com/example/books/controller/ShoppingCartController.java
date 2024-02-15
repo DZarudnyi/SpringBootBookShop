@@ -38,11 +38,11 @@ public class ShoppingCartController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/cart-items/{id}")
-    public void updateCartItemQuantity(
+    public CartItemDto updateCartItemQuantity(
             @PathVariable Long id,
             @RequestBody @Valid UpdateCartItemRequestDto cartItem
     ) {
-        shoppingCartService.updateCartItemQuantity(id, cartItem);
+        return shoppingCartService.updateCartItemQuantity(id, cartItem);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
