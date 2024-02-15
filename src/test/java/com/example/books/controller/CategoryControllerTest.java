@@ -13,6 +13,7 @@ import com.example.books.dto.category.CategoryDto;
 import com.example.books.dto.category.CreateCategoryRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.jupiter.api.Assertions;
@@ -181,7 +182,7 @@ class CategoryControllerTest {
                 objectMapper.readValue(result.getResponse().getContentAsString(), BookDto[].class);
         Assertions.assertNotNull(actual);
 
-        EqualsBuilder.reflectionEquals(List.of(bookDto), List.of(actual), "id");
+        EqualsBuilder.reflectionEquals(List.of(bookDto), Arrays.stream(actual).toList(), "id");
     }
 
     private static CategoryDto getCategoryDto() {

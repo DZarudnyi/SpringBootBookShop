@@ -43,8 +43,11 @@ class BookControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
-    @DisplayName("")
+    @WithMockUser
+    @Sql(scripts = "classpath:database/books/insert-controller-testing-book.sql",
+            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "classpath:database/books/delete-controller-testing-book.sql",
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void getAll_Ok() throws Exception {
         List<BookDto> expected = List.of(getBookDto());
 
@@ -64,7 +67,6 @@ class BookControllerTest {
 
     @Test
     @WithMockUser(username = "user", roles = {"USER"})
-    @DisplayName("")
     @Sql(scripts = "classpath:database/books/insert-controller-testing-book.sql",
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:database/books/delete-controller-testing-book.sql",
@@ -90,7 +92,7 @@ class BookControllerTest {
         CreateBookRequestDto requestDto = new CreateBookRequestDto()
                 .setTitle("Title1")
                 .setAuthor("Author1")
-                .setIsbn("1234")
+                .setIsbn("978-0-545-01022-1")
                 .setPrice(BigDecimal.valueOf(20.00));
 
         BookDto expected = getBookDto();
@@ -113,7 +115,6 @@ class BookControllerTest {
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
-    @DisplayName("")
     @Sql(scripts = "classpath:database/books/insert-controller-testing-book.sql",
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:database/books/delete-controller-testing-book.sql",
@@ -145,9 +146,10 @@ class BookControllerTest {
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
-    @DisplayName("")
     @Sql(scripts = "classpath:database/books/insert-controller-testing-book.sql",
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "classpath:database/books/delete-controller-testing-book.sql",
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void deleteBook_ValidId_Ok() throws Exception {
         mockMvc.perform(delete("/api/books/123"))
                 .andExpect(status().isOk())
@@ -159,7 +161,7 @@ class BookControllerTest {
                 .setId(1L)
                 .setTitle("Title")
                 .setAuthor("Author")
-                .setIsbn("1234")
+                .setIsbn("978-0-545-01022-1")
                 .setPrice(BigDecimal.valueOf(20.00));
     }
 }

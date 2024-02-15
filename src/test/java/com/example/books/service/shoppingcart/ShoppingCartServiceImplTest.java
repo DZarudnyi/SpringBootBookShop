@@ -71,7 +71,7 @@ class ShoppingCartServiceImplTest {
                 user.getAuthorities()
         );
         Mockito.doReturn(shoppingCart).when(shoppingCartRepository)
-                .getShoppingCartByUserId(DEFAULT_ID);
+                .getShoppingCartByUserName("email");
         Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
     }

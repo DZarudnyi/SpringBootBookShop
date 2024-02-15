@@ -19,8 +19,23 @@ class ShoppingCartRepositoryTest {
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:database/shoppingcart/remove-testing-shopping-cart.sql",
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    void getShoppingCartByUserId() {
+    void getShoppingCartByUserId_WithValidId_ShouldReturnShoppingCart() {
         ShoppingCart actual = shoppingCartRepository.getShoppingCartByUserId(1L);
+        Assertions.assertNotNull(actual);
+        Assertions.assertEquals(1, actual.getId());
+    }
+
+    @Test
+    @Sql(scripts = {
+            "classpath:database/shoppingcart/insert-testing-user.sql",
+            "classpath:database/shoppingcart/insert-testing-shopping-cart.sql"
+    }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = {
+            "classpath:database/shoppingcart/remove-testing-shopping-cart.sql",
+            "classpath:database/shoppingcart/remove-testing-user.sql"
+    }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    void getShoppingCartByUserName_WithValidUsername_ShouldReturnShoppingCart() {
+        ShoppingCart actual = shoppingCartRepository.getShoppingCartByUserName("user");
         Assertions.assertNotNull(actual);
         Assertions.assertEquals(1, actual.getId());
     }
