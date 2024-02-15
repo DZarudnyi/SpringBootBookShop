@@ -45,12 +45,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     @Transactional
-    public void updateCartItemQuantity(
+    public CartItemDto updateCartItemQuantity(
             Long itemId,
             UpdateCartItemRequestDto requestDto
     ) {
         CartItem cartItem = cartItemRepository.getReferenceById(itemId);
         cartItem.setQuantity(requestDto.quantity());
+        return cartItemMapper.toDto(cartItem);
     }
 
     @Override

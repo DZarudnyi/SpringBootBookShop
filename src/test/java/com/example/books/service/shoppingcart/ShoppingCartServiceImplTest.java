@@ -102,11 +102,18 @@ class ShoppingCartServiceImplTest {
 
     @Test
     void updateCartItemQuantity_Ok() {
-        Mockito.when(cartItemRepository.getReferenceById(DEFAULT_ID)).thenReturn(getCartItem());
+        CartItemDto expected = getCartItemDto();
+        CartItem cartItem = getCartItem();
 
-        shoppingCartService.updateCartItemQuantity(DEFAULT_ID, new UpdateCartItemRequestDto(1));
+        Mockito.when(cartItemRepository.getReferenceById(DEFAULT_ID)).thenReturn(cartItem);
+        Mockito.doReturn(expected).when(cartItemMapper).toDto(cartItem);
+
+        CartItemDto actual = shoppingCartService.updateCartItemQuantity(DEFAULT_ID,
+                new UpdateCartItemRequestDto(1));
         Mockito.verify(cartItemRepository, Mockito.times(1))
                 .getReferenceById(DEFAULT_ID);
+        Assertions.assertNotNull(actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test

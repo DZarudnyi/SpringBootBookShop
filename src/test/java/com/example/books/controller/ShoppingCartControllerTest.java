@@ -8,15 +8,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.example.books.dto.cartitem.CartItemDto;
 import com.example.books.dto.cartitem.UpdateCartItemRequestDto;
 import com.example.books.dto.shoppingcart.ShoppingCartDto;
+import com.example.books.model.Role;
+import com.example.books.model.RoleName;
+import com.example.books.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
@@ -30,6 +39,10 @@ class ShoppingCartControllerTest {
     private static MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
+    @Mock
+    private Authentication authentication;
+    @Mock
+    private SecurityContext securityContext;
 
     @BeforeAll
     static void setup(@Autowired WebApplicationContext applicationContext) {
@@ -37,6 +50,17 @@ class ShoppingCartControllerTest {
                 .webAppContextSetup(applicationContext)
                 .apply(springSecurity())
                 .build();
+    }
+
+    private void setupShoppingCartForUser() {
+        User user = getUser();
+        authentication = new UsernamePasswordAuthenticationToken(
+                user,
+                user.getPassword(),
+                user.getAuthorities()
+        );
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
     }
 
     @Test
@@ -52,6 +76,7 @@ class ShoppingCartControllerTest {
             "classpath:database/books/remove-testing-book.sql"
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void getShoppingCart() throws Exception {
+//        setupShoppingCartForUser();
         MvcResult result = mockMvc.perform(get("/api/cart"))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -156,5 +181,17 @@ class ShoppingCartControllerTest {
         shoppingCartDto.setUserId(DEFAULT_ID);
         shoppingCartDto.setCartItemsIds(Set.of(DEFAULT_ID));
         return shoppingCartDto;
+    }
+
+    private User getUser() {
+        User user = new User();
+        user.setId(DEFAULT_ID);
+        user.setEmail("email");
+        user.setPassword("password");
+        user.setFirstName("name");
+        user.setLastName("surname");
+        user.setShippingAddress("address");
+        user.setRoles(Set.of(new Role(DEFAULT_ID, RoleName.ROLE_USER)));
+        return user;
     }
 }
