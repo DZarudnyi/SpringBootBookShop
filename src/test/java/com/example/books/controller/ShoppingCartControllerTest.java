@@ -76,7 +76,7 @@ class ShoppingCartControllerTest {
             "classpath:database/books/remove-testing-book.sql"
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void getShoppingCart() throws Exception {
-//        setupShoppingCartForUser();
+        setupShoppingCartForUser();
         MvcResult result = mockMvc.perform(get("/api/cart"))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -102,6 +102,7 @@ class ShoppingCartControllerTest {
             "classpath:database/books/remove-testing-book.sql"
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void addBookToCart() throws Exception {
+        setupShoppingCartForUser();
         ShoppingCartDto expected = getShoppingCartDto();
         expected.setCartItemsIds(Set.of(1L, 2L));
         CartItemDto requestDto = new CartItemDto(1L, 2);
@@ -137,6 +138,7 @@ class ShoppingCartControllerTest {
             "classpath:database/books/remove-testing-book.sql"
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void updateCartItemQuantity() throws Exception {
+        setupShoppingCartForUser();
         UpdateCartItemRequestDto requestDto = new UpdateCartItemRequestDto(2);
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
 
@@ -161,12 +163,14 @@ class ShoppingCartControllerTest {
     @Sql(scripts = {
             "classpath:database/shoppingcart/insert-testing-shopping-cart.sql",
             "classpath:database/books/insert-testing-book.sql",
-            "classpath:database/shoppingcart/insert-cart-item.sql"
+            "classpath:database/shoppingcart/insert-cart-item.sql",
+            "classpath:database/shoppingcart/insert-testing-user.sql"
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {
             "classpath:database/shoppingcart/remove-cart-item.sql",
             "classpath:database/shoppingcart/remove-testing-shopping-cart.sql",
-            "classpath:database/books/remove-testing-book.sql"
+            "classpath:database/books/remove-testing-book.sql",
+            "classpath:database/shoppingcart/remove-testing-user.sql"
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void deleteCartItem() throws Exception {
         MvcResult result = mockMvc.perform(get("/cart-items/1"))
