@@ -7,10 +7,10 @@ import com.example.books.mapper.CartItemMapper;
 import com.example.books.mapper.ShoppingCartMapper;
 import com.example.books.model.CartItem;
 import com.example.books.model.ShoppingCart;
-import com.example.books.model.User;
 import com.example.books.repository.cartitem.CartItemRepository;
 import com.example.books.repository.shoppingcart.ShoppingCartRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,14 +23,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final CartItemMapper cartItemMapper;
     private final CartItemRepository cartItemRepository;
 
-    //TODO: Shopping cart should automatically be created at some point,
-    // perhaps create it with a user registration
-
     @Override
     public ShoppingCartDto getShoppingCart() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return shoppingCartMapper.toDto(shoppingCartRepository
-                .getShoppingCartByUserId(user.getId()));
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        String userName = loggedInUser.getName();
+        ShoppingCart shoppingCart = shoppingCartRepository.getShoppingCartByUserName(userName);
+        return shoppingCartMapper.toDto(shoppingCart);
     }
 
     @Override
