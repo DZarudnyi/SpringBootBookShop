@@ -119,7 +119,7 @@ class ShoppingCartControllerTest {
     @Test
     @WithMockUser
     void deleteCartItem_WithValidId_Ok() throws Exception {
-        mockMvc.perform(delete("/api/cart/cart-items/1"))
+        mockMvc.perform(delete(String.format("/api/cart/cart-items/%d", DEFAULT_ID)))
                 .andExpect(status().isOk())
                 .andReturn();
     }
