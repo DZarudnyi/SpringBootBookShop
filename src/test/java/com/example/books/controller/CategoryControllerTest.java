@@ -13,6 +13,7 @@ import com.example.books.dto.category.CategoryDto;
 import com.example.books.dto.category.CreateCategoryRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.jupiter.api.Assertions;
@@ -144,6 +145,8 @@ class CategoryControllerTest {
     @DisplayName("Update category, should return category")
     @Sql(scripts = "classpath:database/categories/insert-testing-category.sql",
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "classpath:database/categories/remove-category-with-name-and-description.sql",
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void deleteCategory_Ok() throws Exception {
         mockMvc.perform(delete("/api/categories/1"))
                 .andExpect(status().isOk())
@@ -181,7 +184,7 @@ class CategoryControllerTest {
                 objectMapper.readValue(result.getResponse().getContentAsString(), BookDto[].class);
         Assertions.assertNotNull(actual);
 
-        EqualsBuilder.reflectionEquals(List.of(bookDto), List.of(actual), "id");
+        EqualsBuilder.reflectionEquals(List.of(bookDto), Arrays.stream(actual).toList(), "id");
     }
 
     private static CategoryDto getCategoryDto() {

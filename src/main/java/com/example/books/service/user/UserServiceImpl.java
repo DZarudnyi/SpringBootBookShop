@@ -28,16 +28,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto register(UserRegistrationRequestDto requestDto)
             throws RegistrationException {
-        if (userRepository.findByEmail(requestDto.getEmail()).isPresent()) {
+        if (userRepository.findByEmail(requestDto.email()).isPresent()) {
             throw new RegistrationException("User already exists!");
         }
         User user = new User();
-        user.setEmail(requestDto.getEmail());
-        user.setPassword(config.getPasswordEncoder().encode(requestDto.getPassword()));
-        user.setFirstName(requestDto.getFirstName());
-        user.setLastName(requestDto.getLastName());
-        user.setShippingAddress(requestDto.getShippingAddress());
-        Role role = roleRepository.findByName(RoleName.ROLE_USER).get();
+        user.setEmail(requestDto.email());
+        user.setPassword(config.getPasswordEncoder().encode(requestDto.password()));
+        user.setFirstName(requestDto.firstName());
+        user.setLastName(requestDto.lastName());
+        user.setShippingAddress(requestDto.shippingAddress());
+        Role role = roleRepository.findByName(RoleName.ROLE_USER)
+                .orElseThrow(() -> new RegistrationException("There is no role for this user!"));
         user.setRoles(Set.of(role));
         User savedUser = userRepository.save(user);
         ShoppingCart shoppingCart = new ShoppingCart();

@@ -12,13 +12,17 @@ public interface OrderItemMapper {
     OrderItemResponseDto toDto(OrderItem orderItem);
 
     @AfterMapping
-    default void setBookId(
+    default OrderItemResponseDto setBookId(
             @MappingTarget OrderItemResponseDto orderItemDto,
             OrderItem orderItem
     ) {
         if (orderItem.getBook() == null) {
-            return;
+            return orderItemDto;
         }
-        orderItemDto.setBookId(orderItem.getBook().getId());
+        return new OrderItemResponseDto(
+                orderItemDto.id(),
+                orderItem.getBook().getId(),
+                orderItemDto.quantity()
+        );
     }
 }

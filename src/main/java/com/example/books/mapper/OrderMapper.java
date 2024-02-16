@@ -14,9 +14,17 @@ public interface OrderMapper {
     OrderDto toDto(Order order);
 
     @AfterMapping
-    default void setUserId(@MappingTarget OrderDto orderDto, Order order) {
+    default OrderDto setUserId(@MappingTarget OrderDto orderDto, Order order) {
         if (order.getUser() != null) {
-            orderDto.setUserId(order.getUser().getId());
+            return new OrderDto(
+                    orderDto.id(),
+                    order.getUser().getId(),
+                    orderDto.orderItemResponseDtos(),
+                    orderDto.orderDate(),
+                    orderDto.total(),
+                    orderDto.status()
+            );
         }
+        return orderDto;
     }
 }

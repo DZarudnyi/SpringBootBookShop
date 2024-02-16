@@ -12,6 +12,8 @@ import org.mapstruct.MappingTarget;
 public interface CartItemMapper {
     CartItem toEntity(CartItemDto cartItemDto);
 
+    CartItemDto toDto(CartItem cartItem);
+
     @AfterMapping
     default void mapBookIdToBook(@MappingTarget CartItem cartItem, CartItemDto cartItemDto) {
         if (cartItemDto.bookId() == null) {
@@ -20,5 +22,13 @@ public interface CartItemMapper {
         Book book = new Book();
         book.setId(cartItemDto.bookId());
         cartItem.setBook(book);
+    }
+
+    @AfterMapping
+    default CartItemDto mapBookToBookId(@MappingTarget CartItemDto cartItemDto, CartItem cartItem) {
+        if (cartItem.getBook() == null) {
+            return cartItemDto;
+        }
+        return new CartItemDto(cartItem.getBook().getId(), cartItemDto.quantity());
     }
 }

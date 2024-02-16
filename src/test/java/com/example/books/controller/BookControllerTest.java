@@ -43,8 +43,11 @@ class BookControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
-    @DisplayName("")
+    @WithMockUser
+    @Sql(scripts = "classpath:database/books/insert-controller-testing-book.sql",
+            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "classpath:database/books/delete-controller-testing-book.sql",
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void getAll_Ok() throws Exception {
         List<BookDto> expected = List.of(getBookDto());
 
@@ -64,7 +67,6 @@ class BookControllerTest {
 
     @Test
     @WithMockUser(username = "user", roles = {"USER"})
-    @DisplayName("")
     @Sql(scripts = "classpath:database/books/insert-controller-testing-book.sql",
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:database/books/delete-controller-testing-book.sql",
@@ -78,7 +80,7 @@ class BookControllerTest {
                 .readValue(result.getResponse().getContentAsString(), BookDto.class);
 
         Assertions.assertNotNull(actual);
-        Assertions.assertEquals("Title1", actual.getTitle());
+        Assertions.assertEquals("Title1", actual.title());
     }
 
     @Test
@@ -87,11 +89,15 @@ class BookControllerTest {
     @Sql(scripts = "classpath:database/books/delete-book-with-title.sql",
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void createBook_ValidBook_Successful() throws Exception {
-        CreateBookRequestDto requestDto = new CreateBookRequestDto()
-                .setTitle("Title1")
-                .setAuthor("Author1")
-                .setIsbn("1234")
-                .setPrice(BigDecimal.valueOf(20.00));
+        CreateBookRequestDto requestDto = new CreateBookRequestDto(
+                "Title1",
+                "Author1",
+                "978-0-545-01022-1",
+                BigDecimal.valueOf(20.00),
+                "",
+                "",
+                null
+        );
 
         BookDto expected = getBookDto();
 
@@ -107,23 +113,29 @@ class BookControllerTest {
                 objectMapper.readValue(result.getResponse().getContentAsString(), BookDto.class);
         Assertions.assertNotNull(actual);
 
-        EqualsBuilder
-                .reflectionEquals(expected, actual, "id", "description", "coverImage");
+        EqualsBuilder.reflectionEquals(
+                        expected,
+                        actual,
+                        "id", "description", "coverImage", "categoryIds"
+        );
     }
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
-    @DisplayName("")
     @Sql(scripts = "classpath:database/books/insert-controller-testing-book.sql",
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:database/books/delete-controller-testing-book.sql",
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void updateBook_WithValidRequest_Ok() throws Exception {
-        UpdateBookRequestDto requestDto = new UpdateBookRequestDto()
-                .setTitle("Title2")
-                .setAuthor("Author2")
-                .setPrice(BigDecimal.valueOf(25.00))
-                .setIsbn("1234");
+        UpdateBookRequestDto requestDto = new UpdateBookRequestDto(
+                "Title2",
+                "Author2",
+                "1234",
+                BigDecimal.valueOf(25.00),
+                "",
+                "",
+                null
+        );
 
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
 
@@ -140,14 +152,15 @@ class BookControllerTest {
         BookDto actual =
                 objectMapper.readValue(result.getResponse().getContentAsString(), BookDto.class);
         Assertions.assertNotNull(actual);
-        Assertions.assertEquals("Title2", actual.getTitle());
+        Assertions.assertEquals("Title2", actual.title());
     }
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
-    @DisplayName("")
     @Sql(scripts = "classpath:database/books/insert-controller-testing-book.sql",
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "classpath:database/books/delete-controller-testing-book.sql",
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void deleteBook_ValidId_Ok() throws Exception {
         mockMvc.perform(delete("/api/books/123"))
                 .andExpect(status().isOk())
@@ -155,11 +168,15 @@ class BookControllerTest {
     }
 
     private static BookDto getBookDto() {
-        return new BookDto()
-                .setId(1L)
-                .setTitle("Title")
-                .setAuthor("Author")
-                .setIsbn("1234")
-                .setPrice(BigDecimal.valueOf(20.00));
+        return new BookDto(
+                1L,
+                "Title",
+                "Author",
+                "978-0-545-01022-1",
+                BigDecimal.valueOf(20.00),
+                "",
+                "",
+                null
+        );
     }
 }

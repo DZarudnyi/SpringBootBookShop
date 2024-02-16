@@ -2,6 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: insert-users-roles
       author: dzarudnyi
+      context: dev
       changes:
         - insert:
             tableName: users_roles

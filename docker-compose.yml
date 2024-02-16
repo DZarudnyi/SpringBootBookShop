@@ -36,4 +36,4 @@ services:
           "spring.datasource.password" : "${MYSQLDB_ROOT_PASSWORD}",
           "spring.datasource.driver-class-name" : "com.mysql.cj.jdbc.Driver"      
         }'
-      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+      JAVA_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
