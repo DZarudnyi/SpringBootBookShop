@@ -57,10 +57,11 @@ class ShoppingCartServiceImplTest {
         shoppingCart.setUser(user);
         shoppingCart.setCartItems(Set.of(getCartItem()));
 
-        shoppingCartDto = new ShoppingCartDto();
-        shoppingCartDto.setId(DEFAULT_ID);
-        shoppingCartDto.setUserId(DEFAULT_ID);
-        shoppingCartDto.setCartItemsIds(Set.of(DEFAULT_ID));
+        shoppingCartDto = new ShoppingCartDto(
+                DEFAULT_ID,
+                DEFAULT_ID,
+                Set.of(DEFAULT_ID)
+        );
     }
 
     private void setupShoppingCartForUser() {

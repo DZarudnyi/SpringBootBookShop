@@ -27,13 +27,22 @@ public interface BookMapper {
     BookDtoWithoutCategoryIds toDtoWithoutCategories(Book book);
 
     @AfterMapping
-    default void setCategoryIds(@MappingTarget BookDto bookDto, Book book) {
+    default BookDto setCategoryIds(@MappingTarget BookDto bookDto, Book book) {
         if (book.getCategories() == null) {
-            return;
+            return bookDto;
         }
-        bookDto.setCategoryIds(book.getCategories().stream()
-                .map(Category::getId)
-                .collect(Collectors.toSet()));
+        return new BookDto(
+                bookDto.id(),
+                bookDto.title(),
+                bookDto.author(),
+                bookDto.isbn(),
+                bookDto.price(),
+                bookDto.description(),
+                bookDto.coverImage(),
+                book.getCategories().stream()
+                        .map(Category::getId)
+                        .collect(Collectors.toSet())
+        );
     }
 
     default Set<Category> mapSetOfIdsToCategoriesSet(Set<Long> ids) {

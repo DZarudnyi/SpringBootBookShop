@@ -7,20 +7,19 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
-import lombok.Data;
 
-@Data
-public class OrderDto {
-    @NotNull
-    private Long id;
-    @NotNull
-    private Long userId;
-    private Set<OrderItemResponseDto> orderItemResponseDtos;
-    @NotNull
-    private LocalDateTime orderDate;
-    @NotNull
-    @Min(0)
-    private BigDecimal total;
-    @NotNull
-    private Status status;
+public record OrderDto(
+        @NotNull
+        Long id,
+        @NotNull
+        Long userId,
+        Set<OrderItemResponseDto> orderItemResponseDtos,
+        @NotNull
+        LocalDateTime orderDate,
+        @NotNull
+        @Min(0)
+        BigDecimal total,
+        @NotNull
+        Status status
+) {
 }

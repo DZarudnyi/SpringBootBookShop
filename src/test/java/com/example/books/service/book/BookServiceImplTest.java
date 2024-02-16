@@ -29,6 +29,9 @@ import org.springframework.data.domain.Pageable;
 @ExtendWith(MockitoExtension.class)
 public class BookServiceImplTest {
     private static final Long DEFAULT_ID = 1L;
+    private static final String DEFAULT_TITLE = "Title";
+    private static final String DEFAULT_AUTHOR = "Author";
+    private static final String DEFAULT_ISBN = "1234";
     private static final BigDecimal DEFAULT_PRICE = BigDecimal.valueOf(20.00);
 
     private Book book;
@@ -45,20 +48,24 @@ public class BookServiceImplTest {
     public void setup() {
         book = new Book();
         book.setId(DEFAULT_ID);
-        book.setTitle("Title");
-        book.setAuthor("Author");
-        book.setIsbn("1234");
+        book.setTitle(DEFAULT_TITLE);
+        book.setAuthor(DEFAULT_AUTHOR);
+        book.setIsbn(DEFAULT_ISBN);
         book.setPrice(DEFAULT_PRICE);
     }
 
     @Test
     @DisplayName("save, passing valid book, expecting to get BookDto")
     public void save_ValidRequestDto_ReturnsBookDto() {
-        CreateBookRequestDto requestDto = new CreateBookRequestDto();
-        requestDto.setTitle("Title");
-        requestDto.setAuthor("Author");
-        requestDto.setIsbn("1234");
-        requestDto.setPrice(DEFAULT_PRICE);
+        CreateBookRequestDto requestDto = new CreateBookRequestDto(
+                DEFAULT_TITLE,
+                DEFAULT_AUTHOR,
+                DEFAULT_ISBN,
+                DEFAULT_PRICE,
+                "",
+                "",
+                null
+        );
 
         BookDto expected = getBookDto();
 
@@ -102,11 +109,15 @@ public class BookServiceImplTest {
     @Test
     @DisplayName("updateById, passing valid id and verifying number of method calls")
     public void updateById_ValidId_ReturnsValidBook() {
-        UpdateBookRequestDto requestDto = new UpdateBookRequestDto();
-        requestDto.setTitle("Title");
-        requestDto.setAuthor("Author");
-        requestDto.setIsbn("1234");
-        requestDto.setPrice(DEFAULT_PRICE);
+        UpdateBookRequestDto requestDto = new UpdateBookRequestDto(
+                DEFAULT_TITLE,
+                DEFAULT_AUTHOR,
+                DEFAULT_ISBN,
+                DEFAULT_PRICE,
+                "",
+                "",
+                null
+        );
 
         Mockito.when(bookMapper.toModel(requestDto)).thenReturn(book);
 
@@ -146,9 +157,9 @@ public class BookServiceImplTest {
 
         BookDtoWithoutCategoryIds expectedBook = new BookDtoWithoutCategoryIds(
                 DEFAULT_ID,
-                "Title",
-                "Author",
-                "1234",
+                DEFAULT_TITLE,
+                DEFAULT_AUTHOR,
+                DEFAULT_ISBN,
                 DEFAULT_PRICE,
                 "",
                 "");
@@ -164,12 +175,15 @@ public class BookServiceImplTest {
     }
 
     private static BookDto getBookDto() {
-        BookDto bookDto = new BookDto();
-        bookDto.setId(DEFAULT_ID);
-        bookDto.setTitle("Title");
-        bookDto.setAuthor("Author");
-        bookDto.setIsbn("1234");
-        bookDto.setPrice(DEFAULT_PRICE);
-        return bookDto;
+        return new BookDto(
+                DEFAULT_ID,
+                DEFAULT_TITLE,
+                DEFAULT_AUTHOR,
+                DEFAULT_ISBN,
+                DEFAULT_PRICE,
+                "",
+                "",
+                null
+        );
     }
 }

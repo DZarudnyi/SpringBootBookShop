@@ -145,6 +145,8 @@ class CategoryControllerTest {
     @DisplayName("Update category, should return category")
     @Sql(scripts = "classpath:database/categories/insert-testing-category.sql",
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "classpath:database/categories/remove-category-with-name-and-description.sql",
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void deleteCategory_Ok() throws Exception {
         mockMvc.perform(delete("/api/categories/1"))
                 .andExpect(status().isOk())
