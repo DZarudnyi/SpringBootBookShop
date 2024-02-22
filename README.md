@@ -44,8 +44,8 @@ Once you have this project locally, and you don’t want to use Docker, what you
 </dependency>
 ```
 
-Either comment this block of code or delete it (I recommend commenting if you planning on using it with Docker). Then again navigate to the Maven tab and reload the project.
-Reason for this operation is that when you have a docker dependency, your project will always try to run using docker and will give you the (?) exception.
+Either comment this block of code or delete it (I recommend commenting if you're planning on using it with Docker). Then again navigate to the Maven tab and reload the project.
+Reason for this operation is that when you have a docker dependency, your project will always try to run using docker and will give you the NullPointerException.
 
 After these operations are done, you can Run SpringBootBooksApplication 
 
