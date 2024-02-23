@@ -1,11 +1,11 @@
 package com.example.books.dto.order;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 public record SetOrderStatusRequestDto(
         @NotNull
-        @Min(1)
+        @Positive
         int status
 ) {
 }

@@ -26,6 +26,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @Sql(scripts = {
+        "classpath:database/clear_scripts/delete-from-users-roles.sql",
+        "classpath:database/clear_scripts/delete-from-users.sql",
+        "classpath:database/clear_scripts/delete-from-cart-items.sql",
+        "classpath:database/clear_scripts/delete-from-shopping-carts.sql",
+        "classpath:database/clear_scripts/delete-from-books-categories.sql",
+        "classpath:database/clear_scripts/delete-from-books.sql",
+        "classpath:database/clear_scripts/delete-from-categories.sql",
         "classpath:database/shoppingcart/insert-testing-user.sql",
         "classpath:database/shoppingcart/insert-testing-shopping-cart.sql",
         "classpath:database/books/insert-testing-book.sql",

@@ -2,7 +2,6 @@ databaseChangeLog:
   - changeSet:
       id: insert-shopping-carts
       author: dzarudnyi
-      context: dev
       changes:
         - insert:
             tableName: shopping_carts

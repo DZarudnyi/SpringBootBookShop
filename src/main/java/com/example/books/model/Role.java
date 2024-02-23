@@ -11,11 +11,13 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "roles")
 @AllArgsConstructor
+@NoArgsConstructor
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +26,4 @@ public class Role {
     @Enumerated(value = EnumType.STRING)
     @Column(unique = true)
     private RoleName name;
-
-    public Role() {
-
-    }
 }

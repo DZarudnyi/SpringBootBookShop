@@ -1,8 +1,8 @@
 package com.example.books.dto.book;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import org.hibernate.validator.constraints.ISBN;
 
@@ -16,7 +16,7 @@ public record BookDtoWithoutCategoryIds(
         @ISBN(type = ISBN.Type.ANY)
         String isbn,
         @NotNull
-        @Min(0)
+        @Positive
         BigDecimal price,
         String description,
         String coverImage

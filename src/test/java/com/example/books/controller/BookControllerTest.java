@@ -28,6 +28,15 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+@Sql(scripts = {
+        "classpath:database/clear_scripts/delete-from-cart-items.sql",
+        "classpath:database/clear_scripts/delete-from-books-categories.sql",
+        "classpath:database/clear_scripts/delete-from-books.sql",
+        "classpath:database/clear_scripts/delete-from-categories.sql",
+        "classpath:database/books/insert-controller-testing-book.sql"
+}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:database/books/delete-controller-testing-book.sql",
+        executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class BookControllerTest {
     protected static MockMvc mockMvc;
@@ -44,10 +53,6 @@ class BookControllerTest {
 
     @Test
     @WithMockUser
-    @Sql(scripts = "classpath:database/books/insert-controller-testing-book.sql",
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:database/books/delete-controller-testing-book.sql",
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void getAll_Ok() throws Exception {
         List<BookDto> expected = List.of(getBookDto());
 
@@ -66,11 +71,7 @@ class BookControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
-    @Sql(scripts = "classpath:database/books/insert-controller-testing-book.sql",
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:database/books/delete-controller-testing-book.sql",
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @WithMockUser
     void getBookById_WithCorrectId_Ok() throws Exception {
         MvcResult result = mockMvc.perform(get("/api/books/123"))
                 .andExpect(status().isOk())
@@ -122,10 +123,6 @@ class BookControllerTest {
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
-    @Sql(scripts = "classpath:database/books/insert-controller-testing-book.sql",
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:database/books/delete-controller-testing-book.sql",
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void updateBook_WithValidRequest_Ok() throws Exception {
         UpdateBookRequestDto requestDto = new UpdateBookRequestDto(
                 "Title2",
@@ -157,10 +154,6 @@ class BookControllerTest {
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
-    @Sql(scripts = "classpath:database/books/insert-controller-testing-book.sql",
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:database/books/delete-controller-testing-book.sql",
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void deleteBook_ValidId_Ok() throws Exception {
         mockMvc.perform(delete("/api/books/123"))
                 .andExpect(status().isOk())

@@ -13,6 +13,20 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.jdbc.Sql;
 
+@Sql(scripts = {
+        "classpath:database/clear_scripts/delete-from-cart-items.sql",
+        "classpath:database/clear_scripts/delete-from-books-categories.sql",
+        "classpath:database/clear_scripts/delete-from-books.sql",
+        "classpath:database/clear_scripts/delete-from-categories.sql",
+        "classpath:database/books/insert-testing-book.sql",
+        "classpath:database/books/insert-testing-category.sql",
+        "classpath:database/books/insert-testing-books-categories.sql"
+}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = {
+        "classpath:database/books/remove-testing-book-category.sql",
+        "classpath:database/books/remove-testing-category.sql",
+        "classpath:database/books/remove-testing-book.sql"
+}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class BookRepositoryTest {
@@ -20,16 +34,6 @@ class BookRepositoryTest {
     private BookRepository bookRepository;
 
     @Test
-    @Sql(scripts = {
-            "classpath:database/books/insert-testing-book.sql",
-            "classpath:database/books/insert-testing-category.sql",
-            "classpath:database/books/insert-testing-books-categories.sql"
-    }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {
-            "classpath:database/books/remove-testing-book-category.sql",
-            "classpath:database/books/remove-testing-category.sql",
-            "classpath:database/books/remove-testing-book.sql"
-    }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findAllBooksWithCategoriesPaged_WithValidPage_ShouldReturnListOfOneBook() {
         List<Book> actual = bookRepository
                 .findAllBooksWithCategoriesPaged(PageRequest.of(0, 10));
@@ -44,10 +48,6 @@ class BookRepositoryTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:database/books/insert-testing-book.sql",
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:database/books/remove-testing-book.sql",
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findIdsByPage_ValidPage_ShouldGetOneId() {
         List<Long> actual = bookRepository.findIdsByPage(PageRequest.of(0, 10));
 
@@ -56,16 +56,6 @@ class BookRepositoryTest {
     }
 
     @Test
-    @Sql(scripts = {
-            "classpath:database/books/insert-testing-book.sql",
-            "classpath:database/books/insert-testing-category.sql",
-            "classpath:database/books/insert-testing-books-categories.sql"
-    }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {
-            "classpath:database/books/remove-testing-book-category.sql",
-            "classpath:database/books/remove-testing-category.sql",
-            "classpath:database/books/remove-testing-book.sql"
-    }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findByIdsIn_ValidId_ShouldReturnListOfOneBook() {
         List<Book> actual = bookRepository.findByIdsIn(List.of(1L));
 
@@ -74,16 +64,6 @@ class BookRepositoryTest {
     }
 
     @Test
-    @Sql(scripts = {
-            "classpath:database/books/insert-testing-book.sql",
-            "classpath:database/books/insert-testing-category.sql",
-            "classpath:database/books/insert-testing-books-categories.sql"
-    }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {
-            "classpath:database/books/remove-testing-book-category.sql",
-            "classpath:database/books/remove-testing-category.sql",
-            "classpath:database/books/remove-testing-book.sql"
-    }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findAllByCategoryId() {
         List<Book> actual = bookRepository.findAllByCategoryId(1L);
 

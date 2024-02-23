@@ -2,7 +2,6 @@ databaseChangeLog:
   - changeSet:
       id: insert-admin-user
       author: dzarudnyi
-      context: dev
       changes:
         - insert:
             tableName: users
