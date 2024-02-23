@@ -142,7 +142,7 @@ class BookControllerTest {
         mockMvc.perform(put("/api/books/123")
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isAccepted())
                 .andReturn();
 
         MvcResult result = mockMvc.perform(get("/api/books/123"))

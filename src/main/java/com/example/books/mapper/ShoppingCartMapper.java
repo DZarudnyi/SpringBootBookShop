@@ -4,12 +4,10 @@ import com.example.books.config.MapperConfig;
 import com.example.books.dto.shoppingcart.ShoppingCartDto;
 import com.example.books.model.CartItem;
 import com.example.books.model.ShoppingCart;
-
+import com.example.books.model.User;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import com.example.books.model.User;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

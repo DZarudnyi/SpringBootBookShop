@@ -103,7 +103,7 @@ class ShoppingCartControllerTest {
         MvcResult result = mockMvc.perform(put("/api/cart/cart-items/1")
                 .content(jsonRequest)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isAccepted())
                 .andReturn();
 
         CartItemDto actual = objectMapper.readValue(
