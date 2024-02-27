@@ -2,7 +2,11 @@
 BookShop is a Spring boot application created as a backend base for an online book shop service. It uses Spring tools to provide easy and safe access to a defined set of endpoints, which can be easily expanded further.
 
 ## Used technologies
-Spring Boot 
+Java 17
+
+MySQL 8
+
+Spring Boot 3.1.3
 
 Spring Data Jpa
 
