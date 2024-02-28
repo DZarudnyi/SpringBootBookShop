@@ -2,7 +2,8 @@
 BookShop is a Spring boot application created as a backend base for an online book shop service. It uses Spring tools to provide easy and safe access to a defined set of endpoints, which can be easily expanded further.
 
 ## Project showcase
-[![SpringBootBooksShowcase](https://youtu.be/H4QwUrsJUWE)](https://youtu.be/H4QwUrsJUWE)
+A video explanation to how you can use project can be viewed here:
+[![](https://youtu.be/H4QwUrsJUWE/0.jpg "SpringBootBooksShowcase")](https://youtu.be/H4QwUrsJUWE "Spring boot books showcase")
 
 Project is deployed to the Amazon Web Services and can be found by this link:
 
