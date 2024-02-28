@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-admin-user
+      author: dzarudnyi
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: email, value: "test@example.com" }
+              - column: { name: password, value: "$2a$10$/mRwUcuZe1K0/OpmHfDOx.sHimAwS1J2vpRgNydAsz/gfL3.PUl/S" } #securePassword123
+              - column: { name: first_name, value: "Testing" }
+              - column: { name: last_name, value: "Testess" }
+              - column: { name: shipping_address, value: "123 Testing St, City, Country" }

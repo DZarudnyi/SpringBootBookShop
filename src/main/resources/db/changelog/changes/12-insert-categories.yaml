@@ -2,7 +2,6 @@ databaseChangeLog:
   - changeSet:
       id: insert-categories
       author: dzarudnyi
-      context: dev
       changes:
         - insert:
             tableName: categories

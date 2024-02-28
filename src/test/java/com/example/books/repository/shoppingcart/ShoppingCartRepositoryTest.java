@@ -11,6 +11,10 @@ import org.springframework.test.context.jdbc.Sql;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Sql(scripts = {
+        "classpath:database/clear_scripts/delete-from-users-roles.sql",
+        "classpath:database/clear_scripts/delete-from-users.sql",
+        "classpath:database/clear_scripts/delete-from-cart-items.sql",
+        "classpath:database/clear_scripts/delete-from-shopping-carts.sql",
         "classpath:database/shoppingcart/insert-testing-user.sql",
         "classpath:database/shoppingcart/insert-testing-shopping-cart.sql"
 }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)

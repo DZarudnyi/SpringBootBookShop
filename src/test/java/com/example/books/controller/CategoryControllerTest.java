@@ -30,6 +30,15 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+@Sql(scripts = {
+        "classpath:database/clear_scripts/delete-from-cart-items.sql",
+        "classpath:database/clear_scripts/delete-from-books-categories.sql",
+        "classpath:database/clear_scripts/delete-from-books.sql",
+        "classpath:database/clear_scripts/delete-from-categories.sql",
+        "classpath:database/categories/insert-testing-category.sql"
+}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:database/categories/remove-category-with-name-and-description.sql",
+        executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CategoryControllerTest {
     protected static MockMvc mockMvc;
@@ -60,7 +69,7 @@ class CategoryControllerTest {
         MvcResult result = mockMvc.perform(post("/api/categories")
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andReturn();
 
         CategoryDto actual = objectMapper.readValue(
@@ -72,11 +81,7 @@ class CategoryControllerTest {
 
     @Test
     @WithMockUser
-    @DisplayName("Get category by ID, should return category")
-    @Sql(scripts = "classpath:database/categories/insert-testing-category.sql",
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:database/categories/remove-category-with-name-and-description.sql",
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @DisplayName("Get all categories, should return list of categories")
     void getAll_Ok() throws Exception {
         CategoryDto expected = getCategoryDto();
 
@@ -93,11 +98,7 @@ class CategoryControllerTest {
 
     @Test
     @WithMockUser
-    @DisplayName("Get all categories, should return list of categories")
-    @Sql(scripts = "classpath:database/categories/insert-testing-category.sql",
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:database/categories/remove-category-with-name-and-description.sql",
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @DisplayName("Get category by ID, should return category")
     void getCategoryById_WithValidId_ShouldReturnCategoryDto() throws Exception {
         CategoryDto expected = getCategoryDto();
 
@@ -115,13 +116,9 @@ class CategoryControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     @DisplayName("Update category, should return category")
-    @Sql(scripts = "classpath:database/categories/insert-testing-category.sql",
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:database/categories/remove-category-with-name-and-description.sql",
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void updateCategory_WithValidRequest_ShouldReturnCategoryDto() throws Exception {
         CreateCategoryRequestDto requestDto =
-                new CreateCategoryRequestDto("Category1", "Description1");
+                new CreateCategoryRequestDto("Category12", "Description12");
 
         CategoryDto expected = getCategoryDto();
 
@@ -130,7 +127,7 @@ class CategoryControllerTest {
         MvcResult result = mockMvc.perform(put("/api/categories/1")
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isAccepted())
                 .andReturn();
 
         CategoryDto actual = objectMapper.readValue(
@@ -143,10 +140,6 @@ class CategoryControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     @DisplayName("Update category, should return category")
-    @Sql(scripts = "classpath:database/categories/insert-testing-category.sql",
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:database/categories/remove-category-with-name-and-description.sql",
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void deleteCategory_Ok() throws Exception {
         mockMvc.perform(delete("/api/categories/1"))
                 .andExpect(status().isOk())
@@ -155,8 +148,11 @@ class CategoryControllerTest {
 
     @Test
     @WithMockUser
-    @DisplayName("Get all categories, should return list of categories")
     @Sql(scripts = {
+            "classpath:database/clear_scripts/delete-from-cart-items.sql",
+            "classpath:database/clear_scripts/delete-from-books-categories.sql",
+            "classpath:database/clear_scripts/delete-from-books.sql",
+            "classpath:database/clear_scripts/delete-from-categories.sql",
             "classpath:database/categories/insert-testing-category.sql",
             "classpath:database/books/insert-testing-book.sql",
             "classpath:database/books/insert-testing-books-categories.sql"

@@ -2,7 +2,6 @@ databaseChangeLog:
   - changeSet:
       id: insert-book
       author: dzarudnyi
-      context: dev
       changes:
         - insert:
             tableName: books
