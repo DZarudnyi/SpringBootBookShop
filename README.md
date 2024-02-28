@@ -1,6 +1,17 @@
 # SpringBootBooks
 BookShop is a Spring boot application created as a backend base for an online book shop service. It uses Spring tools to provide easy and safe access to a defined set of endpoints, which can be easily expanded further.
 
+## Project showcase
+[![IMAGE_ALT_TEXT_HERE](https://youtu.be/H4QwUrsJUWE/0.jpg)](https://youtu.be/H4QwUrsJUWE)
+
+Project is deployed to the Amazon Web Services and can be found by this link:
+
+`http://ec2-13-60-46-26.eu-north-1.compute.amazonaws.com`
+
+If you want to check it using Swagger interface:
+
+`http://ec2-13-60-46-26.eu-north-1.compute.amazonaws.com/api/swagger-ui/index.html#/`
+
 ## Used technologies
 Java 17
 
