@@ -47,7 +47,7 @@ Mapstruct
 ## Prerequisites
 Right after you clone git project to your computer, open it in the IDE, right-click on the project and choose **Maven > Update(Reload) Project**. 
 
-![alt text](https://github.com/DZarudnyi/SpringBootBookShop/blob/book-entity-branch/images/maven-reload.png "Maven reload")
+![alt text](https://github.com/DZarudnyi/SpringBootBookShop/blob/main/images/maven-reload.png "Maven reload")
 
 This is done to make sure that Maven dependencies folder won’t be missing.
 
@@ -84,7 +84,7 @@ mvn clean package to check if project builds and to make sure that **target** fo
 
 The reason we need it is our Dockerfile, in which you can see that Docker will use .jar files from the **target** directory.
 
-![alt text](https://github.com/DZarudnyi/SpringBootBookShop/blob/book-entity-branch/images/dockerfile.png "Dockerfile")
+![alt text](https://github.com/DZarudnyi/SpringBootBookShop/blob/main/images/dockerfile.png "Dockerfile")
 
 Next command to run in terminal is
 
