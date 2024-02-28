@@ -10,9 +10,14 @@ Project is deployed to the Amazon Web Services and can be found by this link:
 
 `http://ec2-13-60-46-26.eu-north-1.compute.amazonaws.com`
 
-If you want to check it using Swagger interface:
+If you want to check it using [Swagger interface](http://ec2-13-60-46-26.eu-north-1.compute.amazonaws.com/api/swagger-ui/index.html#/):
 
-`http://ec2-13-60-46-26.eu-north-1.compute.amazonaws.com/api/swagger-ui/index.html#/`
+To log in with testing user credentials use this:
+{
+  "email": "bob@example.com",
+  "password": "1234"
+}
+
 
 ## Used technologies
 Java 17
